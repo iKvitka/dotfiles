@@ -1,0 +1,1 @@
+sketchybar --set $NAME icon="$(TZ=":Etc/UTC" date '+%H:%M')"
