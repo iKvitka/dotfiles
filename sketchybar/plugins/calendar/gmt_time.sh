@@ -1,0 +1,1 @@
+sketchybar --set $NAME icon="$(TZ=":Europe/London" date '+%H:%M')"

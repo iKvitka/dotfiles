@@ -34,6 +34,18 @@ ist_time=(
   script="$PLUGIN_DIR/calendar/ist_time.sh"
 )
 
+gmt_time=(
+  icon=gmt_time
+  icon.font="$FONT:Bold:13.0"
+  icon.align=right
+  icon.y_offset=7
+  label=GMT
+  label.y_offset=-7
+  label.padding_left=-33
+  update_freq=1
+  script="$PLUGIN_DIR/calendar/gmt_time.sh"
+)
+
 utc_time=(
   icon=utc_time
   icon.font="$FONT:Bold:13.0"
@@ -54,9 +66,9 @@ sketchybar 	--add item calendar.date right 						        \
 						--set calendar.time.current "${current_time[@]}"  \
 						--subscribe calendar.time.current system_woke     \
 						                                                  \
-						--add item calendar.time.ist right                \
-            --set calendar.time.ist "${ist_time[@]}"          \
-            --subscribe calendar.time.ist system_woke         \
+						--add item calendar.time.gmt right                \
+            --set calendar.time.gmt "${gmt_time[@]}"          \
+            --subscribe calendar.time.gmt system_woke         \
                                                               \
             --add item calendar.time.utc right                \
             --set calendar.time.utc "${utc_time[@]}"          \

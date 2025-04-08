@@ -76,17 +76,31 @@
 # A REFERENCE ONLY, WHEN MAKING YOUR OWN CONFIGURATION..          #
 # ############################################################### #
 
-# reload reload window manager and keymap
-cmd + shift - r : skhd --reload && yabai --restart-service
+# log out my user in case of VM is blocked
+hyper - r : launchctl bootout gui/$(id -u $USER)
+
+# reload reload window manager, keymap and bar
+cmd + shift - r : skhd --reload && yabai --restart-service && sketchybar --reload
+
+# force quit app
+cmd + alt - q   : kill $(yabai -m query --windows --window | jq .pid)
 
 # close window
 cmd - q : yabai -m window --close
 
-#overwrite system hotkey to do nothing
+# overwrite system hotkey to do nothing
+# (because I dont know revert option)
 cmd - h : :
 
 # open a new iTerm window
 cmd - return : osascript -e 'tell application "iTerm2" to create window with default profile command ""' || open -na iTerm
+
+# Make screenshot
+# set the following options:
+#   save to: clipboard
+#   options:
+#     remember last selection - off
+cmd - p : open -a Screenshot
 
 # focus window
 alt - h : yabai -m window --focus west
@@ -101,6 +115,7 @@ alt + shift - k : yabai -m window --swap north
 alt + shift - l : yabai -m window --swap east
 
 # move managed window and split
+# TODO: what is the difference between swap and warp?
 cmd + shift - h : yabai -m window --warp west
 cmd + shift - j : yabai -m window --warp south
 cmd + shift - k : yabai -m window --warp north
@@ -114,12 +129,14 @@ alt + shift - x : yabai -m space --mirror x-axis
 alt + shift - y : yabai -m space --mirror y-axis
 
 # increase window size
+# (works like shit)
 alt + shift - a : yabai -m window --resize left:-48:0
 alt + shift - d : yabai -m window --resize right:48:0
 alt + shift - w : yabai -m window --resize top:0:-48
 alt + shift - s : yabai -m window --resize bottom:0:48
 
 # decrease window size
+# (works like shit)
 cmd + shift - a : yabai -m window --resize left:48:0
 cmd + shift - d : yabai -m window --resize right:-48:0
 cmd + shift - w : yabai -m window --resize top:0:48
@@ -161,7 +178,6 @@ ctrl + alt - right   : yabai -m window --grid 1:2:1:0:1:1
                    yabai -m space --focus "${index}"
 
 # fast focus desktop
-cmd - x : yabai -m space --focus recent
 cmd - 1 : yabai -m space --focus 1
 cmd - 2 : yabai -m space --focus 2
 cmd - 3 : yabai -m space --focus 3
@@ -175,6 +191,7 @@ cmd - 0 : yabai -m space --focus 10
 
 cmd - 0x1B : yabai -m space --focus prev
 cmd - 0x18 : yabai -m space --focus next
+cmd - 0x32 : yabai -m space --focus recent
 
 # toggle window split type
 alt - e : yabai -m window --toggle split
@@ -193,24 +210,6 @@ cmd + shift - 0 : yabai -m window --space 10
 
 cmd + shift - 0x1B : yabai -m window --space prev; yabai -m space --focus prev
 cmd + shift - 0x18 : yabai -m window --space next; yabai -m space --focus next
-
-# focus monitor
-# ctrl + alt - z  : yabai -m display --focus prev
-# ctrl + alt - x  : yabai -m display --focus next
-# ctrl + alt - 1  : yabai -m display --focus 1
-# ctrl + alt - 2  : yabai -m display --focus 2
-# ctrl + alt - 3  : yabai -m display --focus 3
-# ctrl + alt - 4  : yabai -m display --focus 4
-# ctrl + alt - 3  : yabai -m display --focus 5
-# ctrl + alt - 3  : yabai -m display --focus 6
-# ctrl + alt - 3  : yabai -m display --focus 7
-# ctrl + alt - 3  : yabai -m display --focus 8
-# ctrl + alt - 3  : yabai -m display --focus 9
-# ctrl + alt - 3  : yabai -m display --focus 0
-
-# send window to monitor and follow focus
-# ctrl + cmd - c  : yabai -m window --display next; yabai -m display --focus next
-# ctrl + cmd - 1  : yabai -m window --display 1; yabai -m display --focus 1
 
 # set insertion point in focused container
 # ctrl + alt - h : yabai -m window --insert west
