@@ -83,14 +83,17 @@ hyper - r : launchctl bootout gui/$(id -u $USER)
 cmd + shift - r : skhd --reload && yabai --restart-service && sketchybar --reload
 
 # force quit app
-cmd + alt - q   : kill $(yabai -m query --windows --window | jq .pid)
+cmd + alt - q   : kill -KILL $(aerospace list-windows --focused --format %{app-pid})
 
 # close window
-cmd - q : yabai -m window --close
+cmd - q : aerospace close
+
+# close other not-focused windows
+cmd + ctrl - q : aerospace close-all-windows-but-current
 
 # overwrite system hotkey to do nothing
 # (because I dont know revert option)
-cmd - h : :
+# cmd - h : :
 
 # open a new iTerm window
 cmd - return : osascript -e 'tell application "iTerm2" to create window with default profile command ""' || open -na iTerm
@@ -103,10 +106,10 @@ cmd - return : osascript -e 'tell application "iTerm2" to create window with def
 cmd - p : open -a Screenshot
 
 # focus window
-alt - h : yabai -m window --focus west
-alt - j : yabai -m window --focus south
-alt - k : yabai -m window --focus north
-alt - l : yabai -m window --focus east
+# alt - h : yabai -m window --focus west
+# alt - j : yabai -m window --focus south
+# alt - k : yabai -m window --focus north
+# alt - l : yabai -m window --focus east
 
 # swap managed window
 alt + shift - h : yabai -m window --swap west
@@ -144,7 +147,6 @@ cmd + shift - s : yabai -m window --resize bottom:0:-48
 
 # toggle window zoom
 alt - d : yabai -m window --toggle zoom-parent
-alt - f : yabai -m window --toggle zoom-fullscreen
 
 # balance size of windows
 shift + alt - 0 : yabai -m space --balance
@@ -177,36 +179,24 @@ ctrl + alt - right   : yabai -m window --grid 1:2:1:0:1:1
                    yabai -m window --space "${index}" && \
                    yabai -m space --focus "${index}"
 
-# fast focus desktop
-cmd - 1 : yabai -m space --focus 1
-cmd - 2 : yabai -m space --focus 2
-cmd - 3 : yabai -m space --focus 3
-cmd - 4 : yabai -m space --focus 4
-cmd - 5 : yabai -m space --focus 5
-cmd - 6 : yabai -m space --focus 6
-cmd - 7 : yabai -m space --focus 7
-cmd - 8 : yabai -m space --focus 8
-cmd - 9 : yabai -m space --focus 9
-cmd - 0 : yabai -m space --focus 10
-
-cmd - 0x1B : yabai -m space --focus prev
-cmd - 0x18 : yabai -m space --focus next
-cmd - 0x32 : yabai -m space --focus recent
+cmd - 0x18 : aerospace workspace next
+cmd - 0x1B : aerospace workspace prev
+cmd - 0x32 : aerospace workspace-back-and-forth
 
 # toggle window split type
 alt - e : yabai -m window --toggle split
 
 # send window to desktop and follow focus
-cmd + shift - 1 : yabai -m window --space 1
-cmd + shift - 2 : yabai -m window --space 2
-cmd + shift - 3 : yabai -m window --space 3
-cmd + shift - 4 : yabai -m window --space 4
-cmd + shift - 5 : yabai -m window --space 5
-cmd + shift - 6 : yabai -m window --space 6
-cmd + shift - 7 : yabai -m window --space 7
-cmd + shift - 8 : yabai -m window --space 8
-cmd + shift - 9 : yabai -m window --space 9
-cmd + shift - 0 : yabai -m window --space 10
+# cmd + shift - 1 : yabai -m window --space 1
+# cmd + shift - 2 : yabai -m window --space 2
+# cmd + shift - 3 : yabai -m window --space 3
+# cmd + shift - 4 : yabai -m window --space 4
+# cmd + shift - 5 : yabai -m window --space 5
+# cmd + shift - 6 : yabai -m window --space 6
+# cmd + shift - 7 : yabai -m window --space 7
+# cmd + shift - 8 : yabai -m window --space 8
+# cmd + shift - 9 : yabai -m window --space 9
+# cmd + shift - 0 : yabai -m window --space 10
 
 cmd + shift - 0x1B : yabai -m window --space prev; yabai -m space --focus prev
 cmd + shift - 0x18 : yabai -m window --space next; yabai -m space --focus next
